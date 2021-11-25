@@ -1,0 +1,1 @@
+<p>INI PAGE ADMIN</p>
