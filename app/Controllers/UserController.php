@@ -22,7 +22,6 @@ class UserController extends BaseController
                     'validateUser' => "Username or Password didn't match",
                 ],
             ];
-
             if (!$this->validate($rules, $errors)) {
                 return view(
                     'login',
@@ -30,12 +29,26 @@ class UserController extends BaseController
                 );
             } else {
                 $model = new Users();
-
                 $user = $model->where('username', $this->request->getVar('username'))
                     ->first();
+                // Stroing session values
                 $this->setUserSession($user);
+                // Redirecting to dashboard after login
+                if (session()->get('active') == "1") {
+                    if ($user['level'] == "admin") {
+                        return redirect()->to(base_url('admin'));
+                    } elseif ($user['level'] == "guru") {
+                        return redirect()->to(base_url('guru'));
+                    } elseif ($user['level'] == "siswa") {
+                        return redirect()->to(base_url('siswa'));
+                    }
+                } else {
+                    session()->setFlashdata('danger', 'Silahkan Hubungi Administrator Akun belum di aktivasi');
+                    return redirect()->to(base_url('login'));
+                }
             }
         }
+        return view('login');
     }
     private function setUserSession($user)
     {

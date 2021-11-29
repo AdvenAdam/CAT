@@ -34,13 +34,17 @@
 										<h3 class="mt-4 font-weight-bold">Welcome</h3>
 										<?php if (isset($validation)) : ?>
 											<div class="col-12">
-												<div class="alert alert-danger" role="alert">
-													<?= $validation->listErrors() ?>
+												<div class="alert alert-danger" role="alert" style="list-style: none;">
+													<span><?= $validation->listErrors() ?></span>
 												</div>
 											</div>
 										<?php endif; ?>
+										<?php if (session()->getFlashdata('danger')) { ?>
+											<div class="alert alert-danger fade show" role="alert">
+												<span><?= session()->getFlashdata('danger'); ?></span>
+											</div>
+										<?php } ?>
 									</div>
-
 									<div class="login-separater text-center"> <span>LOGIN </span>
 										<hr />
 									</div>
